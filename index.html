@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivacyShield AI — Intelligent Mobile Privacy Risk Assessment & Alert System</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background decorative glows -->
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="shield-icon">🛡️</span>
+                <div>
+                    <h1>PrivacyShield <span class="gradient-text">AI</span></h1>
+                    <p class="subtitle">Intelligent Mobile App Privacy & Permission Risk Auditor</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="status-badge pulse" id="header-device-badge">
+                    <span class="indicator green" id="header-status-dot"></span>
+                    <span id="header-status-text">Detecting Phone...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Health Overview Section -->
+        <section class="score-card glass">
+            <div class="score-radial">
+                <svg viewBox="0 0 100 100" class="radial-svg">
+                    <circle cx="50" cy="50" r="42" class="radial-track"></circle>
+                    <circle cx="50" cy="50" r="42" class="radial-progress" id="score-ring"></circle>
+                </svg>
+                <div class="score-text">
+                    <span id="score-value">85</span>
+                    <span class="score-max">/100</span>
+                </div>
+            </div>
+            <div class="score-info">
+                <div class="score-header-badge">
+                    <h2>Device Privacy Health Index</h2>
+                    <span id="score-level-badge" class="badge-safe">SECURE</span>
+                </div>
+                <p id="score-status" class="status-medium">Ready to Audit Phone Permissions</p>
+                <p class="score-description" id="score-description">Scans for camera, microphone, location & sensitive background access.</p>
+            </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-box glass">
+                <span class="stat-val" id="stat-scanned">0</span>
+                <span class="stat-lbl">Audited Apps</span>
+            </div>
+            <div class="stat-box glass">
+                <span class="stat-val red-text" id="stat-sensitive">0</span>
+                <span class="stat-lbl">Active Sensitive Perms</span>
+            </div>
+            <div class="stat-box glass">
+                <span class="stat-val orange-text" id="stat-drift">0</span>
+                <span class="stat-lbl">Camera / Mic Alerts</span>
+            </div>
+            <div class="stat-box glass">
+                <span class="stat-val crimson-text" id="stat-threats">0</span>
+                <span class="stat-lbl">High Risk Apps</span>
+            </div>
+        </section>
+
+        <!-- Real Android Mobile Live Bridge Section -->
+        <section class="android-bridge-panel glass" id="android-bridge-panel">
+            <div class="bridge-header">
+                <div class="bridge-title-area">
+                    <span class="bridge-icon">📱</span>
+                    <div>
+                        <div class="bridge-headline-row">
+                            <h3>Physical Android Permission Monitor</h3>
+                            <span class="bridge-status-pill" id="device-status-pill">
+                                <span class="indicator green" id="device-status-dot"></span>
+                                <span id="device-status-text">Detecting connected Android mobile...</span>
+                            </span>
+                        </div>
+                        <p class="bridge-subtitle" id="device-meta-subtitle">
+                            Audits real application permissions directly from your connected Android phone via ADB. Revoke or grant permissions on the physical device with instant verification.
+                        </p>
+                    </div>
+                </div>
+                <div class="bridge-actions">
+                    <button class="btn btn-primary" id="btn-scan-real-phone">
+                        <span class="btn-icon">⚡</span> Re-Audit Phone
+                    </button>
+                    <button class="btn btn-outline" id="btn-refresh-device">
+                        <span class="btn-icon">🔄</span> Refresh Connection
+                    </button>
+                </div>
+            </div>
+
+            <!-- Real Device Specs Bar -->
+            <div class="device-specs-bar" id="device-specs-bar" style="display: flex;">
+                <div class="spec-item">
+                    <span class="spec-label">CONNECTED DEVICE:</span>
+                    <span class="spec-val" id="spec-device-name">Detecting...</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">ANDROID OS:</span>
+                    <span class="spec-val" id="spec-android-ver">Android</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">ADB BRIDGE:</span>
+                    <span class="spec-val" id="spec-adb-status">Active</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">LAST AUDIT:</span>
+                    <span class="spec-val" id="spec-last-audit">--:--:--</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">APPS AUDITED:</span>
+                    <span class="spec-val" id="spec-apps-count">0 Packages</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clean Control & Search Bar -->
+        <section class="action-bar-clean glass">
+            <div class="search-box-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="app-search-input" placeholder="Search phone app by name or package..." class="app-search-input" autocomplete="off" />
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btn-scan">
+                <span class="btn-icon">🔄</span> Re-Audit Phone
+            </button>
+        </section>
+
+        <!-- App List Section -->
+        <section class="app-section">
+            <div class="section-header">
+                <div>
+                    <h3 id="app-list-heading">Application Privacy Inventory</h3>
+                    <p class="sub-header-text" id="app-list-subheading">Classified by Context-Based Risk with Live Camera & Mic Sensor Detection</p>
+                </div>
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-filter="all">All Apps</button>
+                    <button class="tab-btn" data-filter="camera">📷 Camera Access</button>
+                    <button class="tab-btn" data-filter="mic">🎙️ Mic Access</button>
+                    <button class="tab-btn" data-filter="critical">🚨 Critical Risk</button>
+                    <button class="tab-btn" data-filter="high">High Risk</button>
+                    <button class="tab-btn" data-filter="low">🟢 Safe</button>
+                </div>
+            </div>
+
+            <div class="app-list" id="app-list-container">
+                <!-- App item cards injected by JavaScript -->
+            </div>
+        </section>
+    </div>
+    <!-- Scan Progress Overlay -->
+    <div class="modal-overlay" id="scan-overlay">
+        <div class="scan-modal glass">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <span class="shield-scan-icon">🛡️</span>
+            </div>
+            <h2>Auditing App Permissions</h2>
+            <p id="scan-step-text" class="scan-step-info">Initializing audit engine...</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="scan-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Details Deep-Dive Modal -->
+    <div class="modal-overlay" id="detail-overlay">
+        <div class="detail-modal glass">
+            <header class="detail-header">
+                <div class="app-meta">
+                    <span class="app-large-icon" id="modal-app-icon">📱</span>
+                    <div>
+                        <h2 id="modal-app-title">App Title</h2>
+                        <p id="modal-app-category" class="app-cat">Category: Tool</p>
+                    </div>
+                </div>
+                <button class="close-btn" id="modal-close">&times;</button>
+            </header>
+
+            <div class="modal-body">
+                <!-- Rescan Confirmation Banner -->
+                <div class="rescan-confirmation-banner" id="modal-rescan-banner">
+                    <span style="font-size: 16px;">✅</span>
+                    <span id="modal-rescan-text">Permission state updated! Recomputed CBPRA threat score.</span>
+                </div>
+
+                <!-- Score Breakdown -->
+                <div class="modal-score-summary glass">
+                    <div class="score-sub-gauge">
+                        <span id="modal-risk-number">85</span>
+                        <span class="sub-label">RISK / 100</span>
+                    </div>
+                    <div class="score-sub-details">
+                        <div class="risk-badge-wrap">
+                            <span id="modal-risk-level-badge" class="badge-high">HIGH RISK</span>
+                        </div>
+                        <p id="modal-risk-desc" class="sub-desc">Severe functional drift detected.</p>
+                        <div class="sub-drivers" id="modal-risk-drivers">
+                            <!-- Dominant drivers list -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sensitive Sensors Audit Matrix -->
+                <div class="sensor-matrix-card">
+                    <h3><span>🛡️</span> Sensitive Sensors Hardware Matrix</h3>
+                    <div class="sensor-grid" id="modal-sensor-grid">
+                        <!-- Populated by JS: Camera, Mic, Location, Contacts, SMS, Storage, Internet -->
+                    </div>
+                </div>
+
+                <!-- Threat Vectors (if any) -->
+                <div id="modal-threats-container" class="threats-container">
+                    <!-- Threat vectors injected by JS -->
+                </div>
+
+                <!-- AI Analysis Card -->
+                <div class="ai-analysis-card">
+                    <div class="ai-title">
+                        <span class="ai-spark">🤖</span>
+                        <h3>AI Contextual Risk Explanation</h3>
+                    </div>
+                    <p class="ai-explanation" id="modal-ai-explanation">
+                        Loading AI insights...
+                    </p>
+                </div>
+
+                <!-- Action Recommendation -->
+                <div class="recommendation-card">
+                    <h3>System Action Recommendation</h3>
+                    <div class="rec-badge" id="modal-rec-badge">Allow Once</div>
+                    <p class="rec-text" id="modal-rec-text">
+                        We recommend restricting this app to access files only when in active use.
+                    </p>
+                </div>
+
+                <!-- Permissions List -->
+                <div class="permission-section">
+                    <h3>Declared Manifest Permissions Audit</h3>
+                    <div class="permissions-list" id="modal-permissions-list">
+                        <!-- Permissions list populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <footer class="detail-footer">
+                <div class="detail-actions-footer">
+                    <button class="btn btn-primary btn-manage-settings" id="btn-settings-redirect">
+                        ⚙️ Manage Permissions in Android Settings
+                    </button>
+                    <button class="btn btn-outline btn-rescan-state" id="btn-rescan-app">
+                        🔄 Check Updated State
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+
+    <!-- USB Debugging Setup Guide Modal -->
+    <div class="modal-overlay" id="usb-help-overlay">
+        <div class="patent-modal glass">
+            <header class="detail-header">
+                <div class="app-meta">
+                    <span class="app-large-icon">🔌</span>
+                    <div>
+                        <h2>How to Connect Your Real Android Phone</h2>
+                        <p class="app-cat">Enable USB Debugging to scan all downloaded apps on your device</p>
+                    </div>
+                </div>
+                <button class="close-btn" id="usb-help-close">&times;</button>
+            </header>
+            <div class="patent-body">
+                <div class="patent-card">
+                    <span class="patent-num">Step 1</span>
+                    <h4>Connect USB Cable</h4>
+                    <p>Connect your Android phone to this computer using a USB cable. On your phone, set the USB notification mode to <strong>File Transfer (MTP)</strong>.</p>
+                </div>
+                <div class="patent-card">
+                    <span class="patent-num">Step 2</span>
+                    <h4>Enable Developer Options</h4>
+                    <p>On your phone, go to <strong>Settings &gt; About Phone</strong>. Find <strong>Build Number</strong> (or MIUI / OS Version) and tap it repeatedly <strong>7 times</strong> until you see <em>"You are now a developer!"</em>.</p>
+                </div>
+                <div class="patent-card">
+                    <span class="patent-num">Step 3</span>
+                    <h4>Turn On USB Debugging</h4>
+                    <p>Go to <strong>Settings &gt; System / Additional Settings &gt; Developer Options</strong> and toggle <strong>USB Debugging</strong> to <strong>ON</strong>.</p>
+                </div>
+                <div class="patent-card">
+                    <span class="patent-num">Step 4</span>
+                    <h4>Authorize Your Computer</h4>
+                    <p>When the popup appears on your phone screen asking <em>"Allow USB debugging?"</em>, check the box <strong>"Always allow from this computer"</strong> and tap <strong>Allow / OK</strong>.</p>
+                </div>
+            </div>
+            <footer class="detail-footer" style="padding-top: 14px;">
+                <button class="btn btn-primary btn-block" id="btn-check-device-now">
+                    🔄 Check Phone Connection Now
+                </button>
+            </footer>
+        </div>
+    </div>
+
+
+
+    <!-- Toast notification element -->
+    <div class="privacy-toast" id="privacy-toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

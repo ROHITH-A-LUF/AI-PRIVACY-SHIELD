@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+*/node_modules/
+.expo/
+*/.expo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+web-build/
+
+# Gradle & Android build artifacts
+.gradle/
+*/.gradle/
+build/
+*/build/
+*/*/build/
+local.properties
+*.apk
+*.ap_
+*.aab
+.cxx/
+
+# Python cache & virtual environments
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# IDE & Editor files
+.idea/
+*.iml
+.vscode/
+.claude/
+*/.claude/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and sensitive keys
+.env
+.env*.local
+*.pem
+*.jks
+*.key
+*.p12
+*.p8

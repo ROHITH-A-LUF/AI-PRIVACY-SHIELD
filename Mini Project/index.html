@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivacyShield AI — Intelligent Mobile Privacy Risk Assessment & Alert System</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background decorative glows -->
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="shield-icon">🛡️</span>
+                <div>
+                    <h1>PrivacyShield <span class="gradient-text">AI</span></h1>
+                    <p class="subtitle">Context-Aware Mobile Permission Risk Assessment & Alert System</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" id="btn-open-simulator">
+                    <span class="btn-icon">⚡</span> CBPRA Sandbox
+                </button>
+                <div class="status-badge pulse">
+                    <span class="indicator green"></span>
+                    <span>On-Device Active</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Health Overview Section -->
+        <section class="score-card glass">
+            <div class="score-radial">
+                <svg viewBox="0 0 100 100" class="radial-svg">
+                    <circle cx="50" cy="50" r="42" class="radial-track"></circle>
+                    <circle cx="50" cy="50" r="42" class="radial-progress" id="score-ring"></circle>
+                </svg>
+                <div class="score-text">
+                    <span id="score-value">85</span>
+                    <span class="score-max">/100</span>
+                </div>
+            </div>
+            <div class="score-info">
+                <div class="score-header-badge">
+                    <h2>Device Privacy Health Index</h2>
+                    <span id="score-level-badge" class="badge-safe">SECURE</span>
+                </div>
+                <p id="score-status" class="status-medium">Auditing Device Permissions</p>
+                <p class="score-description" id="score-description">3 applications display functional context mismatch (permission drift).</p>
+                <div class="formula-chip">
+                    <span class="formula-label">CBPRA Model:</span>
+                    <code>R(A) = clamp(∑[S(p)·(1 + 1.5·μ)·γ] + ∑Ω(k) + δ, 0, 100)</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-box glass">
+                <span class="stat-val" id="stat-scanned">6</span>
+                <span class="stat-lbl">Audited Apps</span>
+            </div>
+            <div class="stat-box glass">
+                <span class="stat-val red-text" id="stat-sensitive">8</span>
+                <span class="stat-lbl">Active Sensitive Perms</span>
+            </div>
+            <div class="stat-box glass">
+                <span class="stat-val orange-text" id="stat-drift">3</span>
+                <span class="stat-lbl">Context Mismatches</span>
+            </div>
+            <div class="stat-box glass">
+                <span class="stat-val crimson-text" id="stat-threats">2</span>
+                <span class="stat-lbl">Exfiltration Vectors</span>
+            </div>
+        </section>
+
+        <!-- Control Action Bar -->
+        <section class="action-bar">
+            <button class="btn btn-primary" id="btn-scan">
+                <span class="btn-icon">🔄</span> Re-Audit Installed Applications
+            </button>
+            <button class="btn btn-secondary" id="btn-connect-calculator">
+                <span class="btn-icon">🧮</span> Connect Calculator & Reveal Threat
+            </button>
+            <button class="btn btn-secondary" id="btn-patent-info">
+                <span class="btn-icon">💡</span> Patent Innovation Blueprint
+            </button>
+        </section>
+
+        <!-- App List Section -->
+        <section class="app-section">
+            <div class="section-header">
+                <div>
+                    <h3>Application Privacy Inventory</h3>
+                    <p class="sub-header-text">Classified by Context-Based Permission Risk Assessment (CBPRA)</p>
+                </div>
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-filter="all">All</button>
+                    <button class="tab-btn" data-filter="critical">Critical</button>
+                    <button class="tab-btn" data-filter="high">High Risk</button>
+                    <button class="tab-btn" data-filter="medium">Moderate</button>
+                    <button class="tab-btn" data-filter="low">Safe</button>
+                </div>
+            </div>
+
+            <div class="app-list" id="app-list-container">
+                <!-- App item cards injected by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Live CBPRA Interactive Simulator / Sandbox Modal -->
+    <div class="modal-overlay" id="simulator-overlay">
+        <div class="simulator-modal glass">
+            <header class="detail-header">
+                <div class="app-meta">
+                    <span class="app-large-icon">🧪</span>
+                    <div>
+                        <h2>CBPRA Algorithm Live Sandbox</h2>
+                        <p class="app-cat">Test custom permission combinations against any application archetype</p>
+                    </div>
+                </div>
+                <button class="close-btn" id="simulator-close">&times;</button>
+            </header>
+
+            <div class="simulator-body">
+                <div class="sim-left-col">
+                    <div class="sim-group">
+                        <label for="sim-category-select">1. Select Application Category:</label>
+                        <select id="sim-category-select" class="custom-select">
+                            <option value="CALCULATOR">Calculator & Tools 🧮</option>
+                            <option value="FLASHLIGHT">Flashlight / Torch 🔦</option>
+                            <option value="CAMERA">Camera & Photography 📷</option>
+                            <option value="NAVIGATION_MAPS">Maps & Navigation 🗺️</option>
+                            <option value="MESSAGING">Messaging & Chat 💬</option>
+                            <option value="SOCIAL_MEDIA">Social Networking 👥</option>
+                            <option value="BANKING_FINANCE">Banking & Finance 💳</option>
+                            <option value="FITNESS_HEALTH">Fitness & Health 🏃</option>
+                            <option value="NOTES_MEMO">Notes & Productivity 📝</option>
+                            <option value="GAMING">Gaming 🎮</option>
+                        </select>
+                    </div>
+
+                    <div class="sim-group">
+                        <label>2. Toggle Requested & Granted Permissions:</label>
+                        <div class="sim-perm-grid" id="sim-perm-toggles">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sim-right-col glass">
+                    <div class="sim-result-header">
+                        <h3>Real-Time CBPRA Computation</h3>
+                        <div class="sim-gauge-wrap">
+                            <div class="sim-score-circle" id="sim-score-circle">
+                                <span id="sim-score-number">87</span>
+                                <span class="sim-score-label">RISK / 100</span>
+                            </div>
+                        </div>
+                        <div id="sim-risk-badge" class="badge-high">HIGH RISK</div>
+                    </div>
+
+                    <div class="sim-math-breakdown">
+                        <div class="breakdown-row">
+                            <span>Base Sensitivity S(A):</span>
+                            <strong id="sim-base-score">25 pts</strong>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Context Mismatch Penalty (1.5×):</span>
+                            <strong id="sim-mismatch-score" class="orange-text">+37 pts</strong>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Synergistic Threat Combos Ω(k):</span>
+                            <strong id="sim-threat-score" class="red-text">+25 pts</strong>
+                        </div>
+                        <div class="breakdown-row total-row">
+                            <span>Final Normalized Score:</span>
+                            <strong id="sim-final-score" class="crimson-text">87 / 100</strong>
+                        </div>
+                    </div>
+
+                    <div class="sim-ai-box">
+                        <div class="ai-title">
+                            <span>🤖</span>
+                            <h4>Deterministic AI Explanation</h4>
+                        </div>
+                        <p id="sim-ai-explanation">Loading analysis...</p>
+                    </div>
+
+                    <div class="sim-rec-box">
+                        <h4>Recommended Action</h4>
+                        <div id="sim-rec-badge" class="rec-badge rec-deny">DENY PERMISSIONS</div>
+                        <p id="sim-rec-text">Revoke unwarranted permissions immediately.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scan Progress Overlay -->
+    <div class="modal-overlay" id="scan-overlay">
+        <div class="scan-modal glass">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <span class="shield-scan-icon">🛡️</span>
+            </div>
+            <h2>Auditing App Permissions</h2>
+            <p id="scan-step-text" class="scan-step-info">Initializing audit engine...</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="scan-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Details Deep-Dive Modal -->
+    <div class="modal-overlay" id="detail-overlay">
+        <div class="detail-modal glass">
+            <header class="detail-header">
+                <div class="app-meta">
+                    <span class="app-large-icon" id="modal-app-icon">📱</span>
+                    <div>
+                        <h2 id="modal-app-title">App Title</h2>
+                        <p id="modal-app-category" class="app-cat">Category: Tool</p>
+                    </div>
+                </div>
+                <button class="close-btn" id="modal-close">&times;</button>
+            </header>
+
+            <div class="modal-body">
+                <!-- Score Breakdown -->
+                <div class="modal-score-summary glass">
+                    <div class="score-sub-gauge">
+                        <span id="modal-risk-number">85</span>
+                        <span class="sub-label">RISK / 100</span>
+                    </div>
+                    <div class="score-sub-details">
+                        <div class="risk-badge-wrap">
+                            <span id="modal-risk-level-badge" class="badge-high">HIGH RISK</span>
+                        </div>
+                        <p id="modal-risk-desc" class="sub-desc">Severe functional drift detected.</p>
+                        <div class="sub-drivers" id="modal-risk-drivers">
+                            <!-- Dominant drivers list -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat Vectors (if any) -->
+                <div id="modal-threats-container" class="threats-container">
+                    <!-- Threat vectors injected by JS -->
+                </div>
+
+                <!-- AI Analysis Card -->
+                <div class="ai-analysis-card">
+                    <div class="ai-title">
+                        <span class="ai-spark">🤖</span>
+                        <h3>AI Contextual Risk Explanation</h3>
+                    </div>
+                    <p class="ai-explanation" id="modal-ai-explanation">
+                        Loading AI insights...
+                    </p>
+                </div>
+
+                <!-- Action Recommendation -->
+                <div class="recommendation-card">
+                    <h3>System Action Recommendation</h3>
+                    <div class="rec-badge" id="modal-rec-badge">Allow Once</div>
+                    <p class="rec-text" id="modal-rec-text">
+                        We recommend restricting this app to access files only when in active use.
+                    </p>
+                </div>
+
+                <!-- Permissions List -->
+                <div class="permission-section">
+                    <h3>Requested Permissions Audit</h3>
+                    <div class="permissions-list" id="modal-permissions-list">
+                        <!-- Permissions list populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <footer class="detail-footer">
+                <button class="btn btn-primary btn-block" id="btn-settings-redirect">
+                    ⚙️ Open Android App Settings (Remediate)
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Patent Innovation Modal -->
+    <div class="modal-overlay" id="patent-overlay">
+        <div class="patent-modal glass">
+            <header class="detail-header">
+                <div class="app-meta">
+                    <span class="app-large-icon">💡</span>
+                    <div>
+                        <h2>PrivacyShield AI — Patent Innovations</h2>
+                        <p class="app-cat">Key Novel Architectural & Algorithmic Contributions</p>
+                    </div>
+                </div>
+                <button class="close-btn" id="patent-close">&times;</button>
+            </header>
+            <div class="patent-body">
+                <div class="patent-card">
+                    <span class="patent-num">Point 1</span>
+                    <h4>Dual-Axis Dynamic Context-Permission Mapping (DCPM)</h4>
+                    <p>Unlike conventional permission viewers that merely count permissions, DCPM evaluates the mathematical semantic distance between an application's functional archetype and its requested capability vector.</p>
+                </div>
+                <div class="patent-card">
+                    <span class="patent-num">Point 2</span>
+                    <h4>Combinatorial Exfiltration Vector Profiling (CEVP)</h4>
+                    <p>Identifies multi-permission synergy where individually benign permissions (e.g., SMS Read + Internet Egress) synergize into high-severity covert exfiltration channels.</p>
+                </div>
+                <div class="patent-card">
+                    <span class="patent-num">Point 3</span>
+                    <h4>Deterministic Explainable Privacy Reasoning Engine (EPRE)</h4>
+                    <p>Translates complex system capability bitmasks into human-digestible causal statements without black-box cloud LLM hallucination or latency.</p>
+                </div>
+                <div class="patent-card">
+                    <span class="patent-num">Point 4</span>
+                    <h4>Zero-Trust On-Device Pre-Grant Decision Architecture</h4>
+                    <p>Complete on-device execution guaranteeing zero user telemetry leakage, protecting user privacy during privacy analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
